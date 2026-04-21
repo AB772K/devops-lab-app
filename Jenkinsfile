@@ -1,3 +1,4 @@
+
 pipeline {
 
     agent any
@@ -12,7 +13,19 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+
+        stage('Checkout') {
+
+            steps {
+
+                git branch: 'main', url: 'https://github.com/AB772K/devops-lab-app.git'
+
+            }
+
+        }
+
+
+        stage('Build Docker Image') {
 
             steps {
 
@@ -23,7 +36,7 @@ pipeline {
         }
 
 
-        stage('Deploy') {
+        stage('Deploy to Kubernetes') {
 
             steps {
 
@@ -34,7 +47,7 @@ pipeline {
         }
 
 
-        stage('Verify') {
+        stage('Verify Deployment') {
 
             steps {
 
@@ -43,6 +56,23 @@ pipeline {
                 sh 'kubectl get svc'
 
             }
+
+        }
+
+    }
+
+
+    post {
+
+        success {
+
+            echo 'Pipeline SUCCESS'
+
+        }
+
+        failure {
+
+            echo 'Pipeline FAILED'
 
         }
 

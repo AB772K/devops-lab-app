@@ -5,27 +5,33 @@ pipeline {
 
     stages {
 
-
-        stage('Clone Repo') {
+        stage('Checkout') {
 
             steps {
 
-                git branch: 'main', url: 'https://github.com/AB772K/devops-lab-app.git'
+                git 'https://github.com/AB772K/devops-lab-app.git'
 
             }
 
         }
 
 
-        stage('Deploy to Kubernetes') {
+        stage('Build') {
+
+            steps {
+
+                sh 'docker build -t flask-app .'
+
+            }
+
+        }
+
+
+        stage('Deploy') {
 
             steps {
 
                 sh 'kubectl apply -f deployment.yaml'
-
-                sh 'kubectl get pods'
-
-                sh 'kubectl get svc'
 
             }
 
@@ -36,7 +42,7 @@ pipeline {
 
             steps {
 
-                sh 'echo "Deployment completed successfully"'
+                sh 'kubectl get pods && kubectl get svc'
 
             }
 

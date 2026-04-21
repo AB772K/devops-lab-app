@@ -10,7 +10,8 @@ pipeline {
 
             steps {
 
-               git branch: 'main' ,  git 'https://github.com/AB772K/devops-lab-app.git'
+                git branch: 'main', url: 'https://github.com/AB772K/devops-lab-app.git'
+
             }
 
         }
@@ -31,18 +32,22 @@ pipeline {
 
             steps {
 
-                sh 'docker stop flask-app || true'
+                sh '''
 
-                sh 'docker rm flask-app || true'
+                    docker stop flask-app || true
 
-                sh 'docker run -d -p 5000:5000 --name flask-app flask-app'
+                    docker rm flask-app || true
+
+                    docker run -d -p 5000:5000 --name flask-app flask-app
+
+                '''
 
             }
 
         }
 
 
-        stage('Verify') {
+        stage('Verify Deployment') {
 
             steps {
 

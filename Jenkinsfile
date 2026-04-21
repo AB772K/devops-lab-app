@@ -10,7 +10,7 @@ pipeline {
 
             steps {
 
-                git 'https://github.com/AB772K/devops-lab-app.git'
+               git branch: 'main' ,  git 'https://github.com/AB772K/devops-lab-app.git'
             }
 
         }

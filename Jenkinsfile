@@ -17,41 +17,15 @@ pipeline {
         }
 
 
-        stage('Build Docker Image') {
+        stage('Deploy to Kubernetes') {
 
             steps {
 
-                sh 'docker build -t flask-app .'
+                sh 'kubectl apply -f deployment.yaml'
 
-            }
+                sh 'kubectl get pods'
 
-        }
-
-
-        stage('Run Container') {
-
-            steps {
-
-                sh '''
-
-                    docker stop flask-app || true
-
-                    docker rm flask-app || true
-
-                    docker run -d -p 5000:5000 --name flask-app flask-app
-
-                '''
-
-            }
-
-        }
-
-
-        stage('Verify Deployment') {
-
-            steps {
-
-                sh 'docker ps'
+                sh 'kubectl get svc'
 
             }
 

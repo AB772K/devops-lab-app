@@ -17,23 +17,15 @@ pipeline {
         }
 
 
-        stage('Deploy to Kubernetes (VM)') {
+        stage('Deploy to Kubernetes') {
 
             steps {
 
-                sh '''
+                sh 'kubectl apply -f deployment.yaml'
 
-                ssh -o StrictHostKeyChecking=no ab772k@localhost "
+                sh 'kubectl get pods'
 
-                    kubectl apply -f ~/devops-lab-app/devops-lab-app/deployment.yaml &&
-
-                    kubectl get pods &&
-
-                    kubectl get svc
-
-                "
-
-                '''
+                sh 'kubectl get svc'
 
             }
 
@@ -44,7 +36,7 @@ pipeline {
 
             steps {
 
-                sh 'echo Deployment triggered successfully'
+                sh 'echo "Deployment completed successfully"'
 
             }
 

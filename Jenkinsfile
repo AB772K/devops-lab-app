@@ -5,17 +5,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-
-            steps {
-
-                git 'https://github.com/AB772K/devops-lab-app.git'
-
-            }
-
-        }
-
-
         stage('Build') {
 
             steps {
@@ -42,7 +31,9 @@ pipeline {
 
             steps {
 
-                sh 'kubectl get pods && kubectl get svc'
+                sh 'kubectl get pods'
+
+                sh 'kubectl get svc'
 
             }
 
